@@ -1,16 +1,14 @@
-import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { useMutation, useQuery } from 'react-query'
 import decryptService from '../../services/api/decrypt'
 import generateKeysService from '../../services/api/generate'
 import { Page } from '../../components/page'
 import { Hero } from '../../components/hero'
-import { KeyPart } from '../../components/key-part'
 import { MainBox } from '../../components/main-box'
 import { Button } from '../../components/button'
+import { KeyPair } from '../../components/key-pair'
 
 export default function SecretPage() {
-  const [showPrivate, setShowPrivate] = useState(false)
   const { data: keys, isLoading: isLoadingKeys, error: errorKeys } = useQuery(
     '/api/generate',
     generateKeysService
@@ -51,11 +49,7 @@ export default function SecretPage() {
         )}
 
         {!isLoadingKeys && !!keys && (
-          <section>
-            <KeyPart title="Your public key" keyPart={keys.publicKey} />
-            {!showPrivate && <button onClick={() => setShowPrivate(true)}>show private key</button>}
-            {showPrivate && <KeyPart title="Your private key" keyPart={keys.privateKey} />}
-          </section>
+          <KeyPair publicKey={keys.publicKey} privateKey={keys.privateKey} />
         )}
       </section>
     </Page>
