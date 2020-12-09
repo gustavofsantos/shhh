@@ -1,4 +1,4 @@
-export default function decryptService({ data, destinationPrivateKey, sourcePublicKey }) {
+export default function decryptService({ data, destinationPrivateKey, sourcePublicKey, iv }) {
   return fetch('/api/decrypt', {
     method: 'POST',
     headers: {
@@ -7,7 +7,8 @@ export default function decryptService({ data, destinationPrivateKey, sourcePubl
     body: JSON.stringify({
       data,
       destinationPrivateKey,
-      sourcePublicKey
+      sourcePublicKey,
+      iv
     })
   }).then((response) => response.json())
 }
