@@ -10,7 +10,8 @@ import { Button } from '../components/button'
 import { KeyPair } from '../components/key-pair'
 import { Footer } from '../components/footer'
 
-const createShareLink = (encrypted, iv) => `${location.origin}/secret/${encrypted}$${iv}`
+const createShareLink = (encrypted, iv, publicKey) =>
+  `${location.origin}/secret/${encrypted}$${iv}?sourcePublicKey=${publicKey}`
 
 export default function Home() {
   const { data: keys, isLoading: isLoadingKeys, error: errorKeys } = useQuery(
@@ -35,7 +36,9 @@ export default function Home() {
           <MainBox>
             <div className="flex flex-col pb-6">
               <h3>Secret generated</h3>
-              <p className="break-all">{createShareLink(data.encryptedMessage, data.iv)}</p>
+              <p className="break-all">
+                {createShareLink(data.encryptedMessage, data.iv, keys.publicKey)}
+              </p>
             </div>
 
             <Button onClick={handleCopyToClipboard}>Copy access link</Button>
