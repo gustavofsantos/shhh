@@ -20,9 +20,7 @@ export default function SecretPage() {
   const [mutate, { data, isLoading, error }] = useMutation(decryptService)
   const { cipher_content } = router.query
 
-  const [encryptedMessage, iv] = cipher_content ? cipher_content.split('$') : []
-
-  console.log({ cipher_content, data })
+  const [encryptedMessage] = cipher_content ? cipher_content.split('$') : []
 
   const handleReveal = () => {
     const [encryptedMessage, iv] = cipher_content.split('$')
