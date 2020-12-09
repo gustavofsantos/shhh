@@ -10,7 +10,10 @@ export function KeyPair({ publicKey, privateKey }) {
     <div>
       <KeyPart title="your public key" keyPart={publicKey} />
       {!showPrivate && (
-        <button onClick={toggle} className="bg-yellow-500">
+        <button
+          onClick={toggle}
+          className="rounded-3xl p-2 pt-1 pb-1 border border-yellow-700 text-yellow-700 dark:border-yellow-500 dark:text-yellow-500"
+        >
           show private key
         </button>
       )}
