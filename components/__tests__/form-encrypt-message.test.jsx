@@ -63,7 +63,7 @@ describe(FormEncryptMessage.name, () => {
     expect(onSubmit).not.toBeCalled()
   })
 
-  test('should trim message and public key after submit', async () => {
+  test('should trim message and public key before submit', async () => {
     const onSubmit = jest.fn()
     render(<FormEncryptMessage onSubmit={onSubmit} />)
 
