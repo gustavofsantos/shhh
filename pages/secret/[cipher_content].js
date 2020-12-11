@@ -1,27 +1,23 @@
 import { useRouter } from 'next/router'
-import { useMutation, useQuery } from 'react-query'
-import decryptService from '../../services/api/decrypt'
-import generateKeysService from '../../services/api/generate'
 import { Page } from '../../components/page'
 import { Hero } from '../../components/hero'
 import { MainBox } from '../../components/main-box'
 import { Button } from '../../components/button'
 import { KeyPair } from '../../components/key-pair'
+import { useEncryptionKeys } from '../../hooks/use-encryption-keys'
+import { useSecretDecryption } from '../../hooks/use-secret-decryption'
 
 export default function SecretPage() {
-  const { data: keys, isLoading: isLoadingKeys, error: errorKeys } = useQuery(
-    '/api/generate',
-    generateKeysService
-  )
+  const { loading: keysLoading, keys, error: keysError, reset } = useEncryptionKeys()
+  const { loading: decryptionLoading, data, error: decryptError, decrypt } = useSecretDecryption()
 
   const router = useRouter()
-  const [mutate, { data, isLoading, error }] = useMutation(decryptService)
   const { cipher_content, sourcePublicKey } = router.query
   const [encryptedMessage] = cipher_content ? cipher_content.split('$') : []
 
   const handleReveal = () => {
     const [encryptedMessage, iv] = cipher_content.split('$')
-    mutate({
+    decrypt({
       data: encryptedMessage,
       destinationPrivateKey: keys.privateKey,
       sourcePublicKey: sourcePublicKey,
@@ -41,13 +37,13 @@ export default function SecretPage() {
           </MainBox>
         )}
 
-        {!isLoading && !!data && (
+        {!decryptionLoading && !!data && (
           <MainBox>
-            <p className="break-words">{data.decryptedMessage}</p>
+            <p className="break-words">{data}</p>
           </MainBox>
         )}
 
-        {!isLoadingKeys && !!keys && (
+        {!keysLoading && !!keys && (
           <KeyPair publicKey={keys.publicKey} privateKey={keys.privateKey} />
         )}
       </section>
