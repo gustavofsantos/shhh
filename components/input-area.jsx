@@ -11,6 +11,7 @@ export const InputArea = forwardRef((props, ref) => (
       name={props.name}
       ref={ref}
     />
+    {!!props.error && (<span>{props.error}</span>)}
   </div>
 ))
 
