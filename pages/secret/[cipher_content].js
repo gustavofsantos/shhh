@@ -39,7 +39,7 @@ export default function SecretPage() {
 
         {!decryptionLoading && !!data && (
           <MainBox>
-            <p className="break-words">{data}</p>
+            <p className="break-words text-center">{data}</p>
           </MainBox>
         )}
 
