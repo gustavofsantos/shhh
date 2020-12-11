@@ -62,4 +62,21 @@ describe(FormEncryptMessage.name, () => {
     )
     expect(onSubmit).not.toBeCalled()
   })
+
+  test('should trim message and public key after submit', async () => {
+    const onSubmit = jest.fn()
+    render(<FormEncryptMessage onSubmit={onSubmit} />)
+
+    await user.type(screen.getByLabelText(/message/i), '    ' + message)
+    await user.type(screen.getByLabelText(/destination public key/i), destinationPubKey + '     ')
+
+    user.click(screen.getByText(/create/i))
+
+    await waitFor(() =>
+      expect(onSubmit).toBeCalledWith({
+        data: message,
+        destinationPublicKey: destinationPubKey
+      })
+    )
+  })
 })

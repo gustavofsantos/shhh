@@ -6,7 +6,8 @@ import { Button } from './button'
 export function FormEncryptMessage({ onSubmit }) {
   const { handleSubmit, register, errors } = useForm()
 
-  const submit = ({ data, destinationPublicKey }) => onSubmit({ data, destinationPublicKey })
+  const submit = ({ data, destinationPublicKey }) =>
+    onSubmit({ data: data.trim(), destinationPublicKey: destinationPublicKey.trim() })
 
   return (
     <form className="flex flex-col w-full" onSubmit={handleSubmit(submit)}>
