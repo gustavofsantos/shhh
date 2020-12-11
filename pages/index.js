@@ -1,25 +1,28 @@
-import { useMutation, useQuery } from 'react-query'
+import { useState, useRef } from 'react'
 
-import encryptService from '../services/api/encrypt'
 import { FormEncryptMessage } from '../components/form-encrypt-message'
-import generateKeysService from '../services/api/generate'
 import { Page } from '../components/page'
 import { Hero } from '../components/hero'
 import { MainBox } from '../components/main-box'
 import { Button } from '../components/button'
 import { KeyPair } from '../components/key-pair'
-import { Footer } from '../components/footer'
 import { useEncryptionKeys } from '../hooks/use-encryption-keys'
 import { useSecretEncryption } from '../hooks/use-secret-encryption'
+import { copyToClipboard } from '../lib/copy-to-clipboard'
 
 const createShareLink = (encrypted, iv, publicKey) =>
   `${location.origin}/secret/${encrypted}$${iv}?sourcePublicKey=${publicKey}`
 
 export default function Home() {
+  const [copied, setCopied] = useState(false)
+  const linkInputRef = useRef()
   const { loading: keysLoading, keys, error: keysError, reset } = useEncryptionKeys()
   const { loading: encryptionLoading, data: encryptionData, encrypt } = useSecretEncryption()
 
-  const handleCopyToClipboard = () => {}
+  const handleCopyToClipboard = () => {
+    copyToClipboard(linkInputRef)
+    setCopied(true)
+  }
 
   const handleSubmit = ({ data, destinationPublicKey }) =>
     encrypt({
@@ -45,7 +48,7 @@ export default function Home() {
           </button>
         </div>
 
-        {!encryptionLoading && !!encryptionData && (
+        {!encryptionLoading && !!encryptionData && !!keys && (
           <MainBox>
             <div className="flex flex-col pb-6">
               <h3>Secret generated</h3>
@@ -56,11 +59,22 @@ export default function Home() {
                   keys.publicKey
                 )}
               </p>
+              <input
+                className="opacity-0 h-0"
+                value={createShareLink(
+                  encryptionData.encryptedMessage,
+                  encryptionData.encryptionIv,
+                  keys.publicKey
+                )}
+                ref={linkInputRef}
+              />
             </div>
 
-            <Button onClick={handleCopyToClipboard}>Copy access link</Button>
+            <Button onClick={handleCopyToClipboard}>
+              {copied ? 'Copied!' : 'Copy access link'}
+            </Button>
 
-            <p className="w-full text-center pt-3">Send this link to your friend!</p>
+            <p className="w-full text-center pt-3">Copy and send this link!</p>
           </MainBox>
         )}
 
