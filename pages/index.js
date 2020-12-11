@@ -30,7 +30,11 @@ export default function Home() {
       <Hero />
 
       <section>
-        {!isLoadingKeys && !data && <FormEncryptMessage onSubmit={handleSubmit} />}
+        {!isLoadingKeys && !data && (
+          <MainBox>
+            <FormEncryptMessage onSubmit={handleSubmit} />
+          </MainBox>
+        )}
 
         {!isLoading && !!data && (
           <MainBox>
