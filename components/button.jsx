@@ -1,7 +1,7 @@
 export function Button({ children, ...props }) {
   return (
     <button
-      className="bg-gray-900 text-white text-lg font-bold rounded-md shadow-md pt-3 pb-3"
+      className="bg-black text-white font-light uppercase text-lg pt-3 pb-3 shadow-lg"
       {...props}
     >
       {children}

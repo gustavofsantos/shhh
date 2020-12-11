@@ -1,11 +1,10 @@
-import Link from 'next/link'
+import { KeyPair } from './key-pair'
 
 export function Footer() {
   return (
-    <footer className="pt-12 pb-24">
-      <h2 className="text-gray-900 dark:text-gray-300">Shhh. Share secrets secretly</h2>
+    <footer className="flex flex-col w-full pt-6 pb-12 bg-black">
       <a
-        className="text-blue-500 underline cursor-pointer"
+        className="text-white font-light underline text-center cursor-pointer"
         href="https://github.com/gustavofsantos/shhh"
         target="_blank"
         rel="noopener noreferrer"

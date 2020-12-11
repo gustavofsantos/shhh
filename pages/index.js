@@ -39,7 +39,11 @@ export default function Home() {
           </MainBox>
         )}
 
-        <button onClick={reset}>reset keys</button>
+        <div className="flex flex-row-reverse">
+          <button className="mb-4 underline" onClick={reset}>
+            regenerate keys
+          </button>
+        </div>
 
         {!encryptionLoading && !!encryptionData && (
           <MainBox>
@@ -65,8 +69,6 @@ export default function Home() {
           <KeyPair privateKey={keys.privateKey} publicKey={keys.publicKey} />
         )}
       </section>
-      <br />
-      <Footer />
     </Page>
   )
 }
